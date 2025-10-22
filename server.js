@@ -14,17 +14,35 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ CORS setup (allows frontend to communicate)
-app.use(
+// // ✅ CORS setup (allows frontend to communicate)
+// app.use(
+//     cors({
+//       origin: [
+//         "https://camramen-frontend.vercel.app/", // your production frontend
+//         "http://localhost:5173"        // local dev (Vite or React)
+//       ],
+//       credentials: true,    
+//     })
+//   );
+  
+  // ✅ FIXED CORS CONFIG
+const allowedOrigins = [
+    "http://localhost:5173", // local frontend
+    "https://camramen-frontend.vercel.app", // deployed frontend (replace with your real one)
+  ];
+  
+  app.use(
     cors({
-      origin: [
-        "https://camramen-frontend.vercel.app/", // your production frontend
-        "http://localhost:5173"        // local dev (Vite or React)
-      ],
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
       credentials: true,
     })
   );
-  
 
 // ✅ Cookie parser
 app.use(cookieParser());
