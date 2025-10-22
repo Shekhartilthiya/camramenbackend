@@ -16,11 +16,15 @@ app.use(express.urlencoded({ extended: true }));
 
 // ✅ CORS setup (allows frontend to communicate)
 app.use(
-  cors({
-    origin: true, // You can change to specific domain later, e.g., "https://camramen.vercel.app"
-    credentials: true,
-  })
-);
+    cors({
+      origin: [
+        "https://camramen-frontend.vercel.app/", // your production frontend
+        "http://localhost:5173"        // local dev (Vite or React)
+      ],
+      credentials: true,
+    })
+  );
+  
 
 // ✅ Cookie parser
 app.use(cookieParser());
