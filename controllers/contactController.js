@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const contact = async(req,res) =>{
+    req.geturl = req.originalUrl;
+    console.log(req.geturl);
     const {name,email,message,contact} = req.body;
 
     if(!name || !email || !message){
